@@ -47,5 +47,5 @@ sequenceDiagram
     server-->>browser: { "content": "A new note", "date": "2024-11-21" }
     deactivate server
 
-    Note right of browser: The browser appends the appends the new note to the existing note list.
+    Note right of browser: The browser appends the new note to the existing note list.
 ```
