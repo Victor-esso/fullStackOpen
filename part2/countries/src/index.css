@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    .mask-left{
+        mask: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 50%, rgba(0,0,0,0.9) 85%, rgba(0,0,0,0) 100%);
+    }
+
+}
+
+*{
+    font-family: "Poppins", sans-serif;
+}

@@ -1,0 +1,9 @@
+.notification.fade-in {
+  opacity: 1;
+  transition: 0.15s ease-in-out;
+}
+.notification.fade-out {
+  opacity: 0;
+  margin-top: -4rem;
+  transition: 0.15s ease-in-out;
+}/*# sourceMappingURL=notifcations.css.map */
