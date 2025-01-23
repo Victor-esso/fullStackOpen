@@ -1,0 +1,10 @@
+DELETE http://localhost:3030/api/contacts/1
+
+###
+POST http://localhost:3030/api/contacts/
+Content-Type: application/json
+
+{
+    "name"  : "victor esso",
+    "number" : "09037871109"
+}
