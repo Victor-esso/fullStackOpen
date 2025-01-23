@@ -5,6 +5,6 @@ POST http://localhost:3030/api/contacts/
 Content-Type: application/json
 
 {
-    "name"  : "victor esso",
-    "number" : "09037871109"
+    "name"  : "victor esso ",
+    "number" : "090378711094"
 }

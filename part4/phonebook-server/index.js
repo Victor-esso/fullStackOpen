@@ -1,9 +1,33 @@
 const express = require('express')
 const func = require('./functions')
 const app = express()
+const morgan = require('morgan');
 const PORT = 3030
+const chalk = require('chalk')
+
+
+
 
 app.use(express.json());
+
+app.use(morgan((tokens, req , res) => {
+        let method = req.method.toUpperCase();
+        let status = Number(tokens.status(req , res));
+        console.log(`\n${''.padStart(80,'-')} \n `)
+        
+        console.log([
+            (status >=200 && status <=299) ? chalk.greenBright(status) : ([400].includes(status) ? chalk.yellow(status) : chalk.redBright(status)),
+            chalk.blackBright(method),
+            tokens.url(req , res), '-',
+            chalk.cyanBright(tokens['response-time'](req , res)) + chalk.cyan(' ms'),
+        ].join(' '))
+        
+        if(Object.entries(req.body).length){
+            console.dir(req.body , { depth: null, colors: true })
+        }
+        
+}))
+
 const contacts = [
     { 
       "id": "1",
@@ -67,13 +91,15 @@ app.delete('/api/contacts/:id', (request , response) => {
     const id = request.params.id
     const updatedContacts = contacts.filter(contact => contact.id !== id)
     
-    response.status(204)
+    response.status(204).json(updatedContacts)
 })
 
 app.get('/info', (request , response) => {
     const time = new Date()
     response.send(`Phonebook has info for ${contacts.length} people <br/> <br/> ${time.toString()}`.trim())
 })
+
+
 
 
 
