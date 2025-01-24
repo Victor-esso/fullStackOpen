@@ -1,14 +1,34 @@
-const express = require('express')
-const func = require('./functions')
+const express = require('express') // for server management
+const morgan = require('morgan'); // logger
+
+const func = require('./functions') // mine
+const chalk = require('chalk') // colors on logger
+const cors = require('cors') // cross origin management
+require('dotenv').config();
 const app = express()
-const morgan = require('morgan');
-const PORT = 3030
-const chalk = require('chalk')
+const PORT = process.env.PORT || 3000
 
+// set Allowed Origins
+const allowedOrigins = [
+  'http://localhost:5173', // make sure the origin has no trailing slash
+  'http://localhost:3623'
+]
 
+const corsOptions = {
+  origin: (origin , callback) =>{
+    console.log(origin);
+    //check if the incoming origin is in the allowed origins list
+    if(!origin || allowedOrigins.includes(origin)){
+      callback(null , true)
+    }else{
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 
 app.use(express.json());
+app.use(cors(corsOptions))
 
 app.use(morgan((tokens, req , res) => {
         let method = req.method.toUpperCase();
@@ -102,7 +122,9 @@ app.get('/info', (request , response) => {
 
 
 
-
 app.listen(PORT , () => {
     console.log(`server is running on port http://localhost:${PORT}/`)
 })
+
+// Export the app as a serverless function
+// module.exports.handler = serverless(app);
