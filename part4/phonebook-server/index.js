@@ -16,7 +16,6 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: (origin , callback) =>{
-    console.log(origin);
     //check if the incoming origin is in the allowed origins list
     if(!origin || allowedOrigins.includes(origin)){
       callback(null , true)
@@ -29,7 +28,6 @@ const corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions))
-
 app.use(morgan((tokens, req , res) => {
         let method = req.method.toUpperCase();
         let status = Number(tokens.status(req , res));
@@ -71,12 +69,15 @@ const contacts = [
     },
     { 
       "id": "5",
-      "name": "victor esso", 
+      "name": "victor esso Okeke", 
       "number": "09037871109"
     }
     
 ]
 
+app.get('/', ( request , response ) => {
+  response.send('<h1>Welcome</h1>')
+})
 
 app.get('/api/contacts', (request , response) => {
     response.json(contacts)
@@ -95,9 +96,20 @@ app.post('/api/contacts', (request , response) => {
         (duplicateNumber ? 
             response.status(400).json({error : "Number must be unique"})
             :
-            response.json([ newContact , ...contacts ])
+            response.json(newContact)
         )
     
+})
+
+app.put('/api/contacts/:id' , (request , response) => {
+  const updatedContact = request.body;
+
+  // perform update on the specific contact
+  const contactsUpdated = contacts.map(contact => contact.id == updatedContact.id ? updatedContact : contact)
+  console.dir(contactsUpdated);
+
+  response.json(updatedContact);
+  
 })
 
 app.get('/api/contacts/:id', (request , response) => {
@@ -109,17 +121,19 @@ app.get('/api/contacts/:id', (request , response) => {
 
 app.delete('/api/contacts/:id', (request , response) => {
     const id = request.params.id
+    const deletedContact = contacts.find(contact => contact.id === id)
+    if(!deletedContact){
+      response.status(404).json({error:"Invalid Contact-ID sent"})
+    }
     const updatedContacts = contacts.filter(contact => contact.id !== id)
     
-    response.status(204).json(updatedContacts)
+    response.status(200).json(deletedContact)
 })
 
 app.get('/info', (request , response) => {
     const time = new Date()
     response.send(`Phonebook has info for ${contacts.length} people <br/> <br/> ${time.toString()}`.trim())
 })
-
-
 
 
 app.listen(PORT , () => {
