@@ -28,7 +28,9 @@ const corsOptions = {
 app.use(express.static('dist'));
 
 app.use(express.json());
-app.use(cors(corsOptions))
+
+app.use(cors())
+
 app.use(morgan((tokens, req , res) => {
         let method = req.method.toUpperCase();
         let status = Number(tokens.status(req , res));
@@ -76,9 +78,6 @@ const contacts = [
     
 ]
 
-app.get('/', ( request , response ) => {
-  response.send('<h1>Welcome</h1>')
-})
 
 app.get('/api/contacts', (request , response) => {
     response.json(contacts)
