@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:front": "rmdir /s /q dist && cd ..\\PB-frontend && npm run build && xcopy dist ..\\PB-backend\\dist\\ /E /H /I /Y",
     "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../pb-frontend && npm run build && @powershell Copy-Item dist -Recurse ../pb-backend",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m  && git push"
   },
   "author": "Victor",
   "license": "MIT",
