@@ -2,13 +2,13 @@ const { execSync } = require("child_process");
 
 const commitMsg = process.argv[2] || "Auto commit"; // Get message from CLI args
 const fullDeploy = Boolean(process.argv[3]) || false;
-console.log(process.argv, commitMsg , fullDeploy)
+
 
 try {
     
     if(fullDeploy){        
         console.log("📦 Building frontend Project...");
-        execSync(`npm run build:ui && git add . && git commit -m  && git push`, { stdio: "inherit" });
+        execSync(`npm run build:ui`, { stdio: "inherit" });
     }
   
     console.log("📤 Adding files to Git...");
