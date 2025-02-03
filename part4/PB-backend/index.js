@@ -164,7 +164,7 @@ app.get('/info', (request , response) => {
 
 app.listen(PORT , () => {
     console.log(`server is running on port http://localhost:${PORT}/`) 
-    console.log(` database url : ${process.env['database.loginString']}`)
+    console.log(` database url : ${process.env.MONGO_URL}`)
 })
 
 // Export the app as a serverless function
