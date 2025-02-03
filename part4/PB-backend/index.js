@@ -138,6 +138,7 @@ app.get('/info', (request , response) => {
 
 app.listen(PORT , () => {
     console.log(`server is running on port http://localhost:${PORT}/`)
+    console.log(process.env['database.loginString'])
 })
 
 // Export the app as a serverless function

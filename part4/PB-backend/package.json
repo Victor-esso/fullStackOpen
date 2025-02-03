@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon --inspect index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:front": "rmdir /s /q dist && cd ..\\PB-frontend && npm run build && xcopy dist ..\\PB-backend\\dist\\ /E /H /I /Y",
     "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../pb-frontend && npm run build && @powershell Copy-Item dist -Recurse ../pb-backend",
-    "deploy:full": "npm run build:ui && git add . && git commit -m  && git push"
+    "deploy:full": "npm run build:ui && git add . && git commit -m  && git push",
+    "deploy" : "node deploy.js"
   },
   "author": "Victor",
   "license": "MIT",
@@ -17,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.9.5",
     "morgan": "^1.10.0",
     "serverless-http": "^3.2.0"
   },
