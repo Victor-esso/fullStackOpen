@@ -10,6 +10,21 @@ const PORT = process.env.PORT || 3000
 
 const { Contact } = require('./models/contact')
 
+const unknownEndpoint = (request, response) => {
+  console.log(request.url);
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
 
 // set Allowed Origins
 const allowedOrigins = [
@@ -49,6 +64,7 @@ app.use(morgan((tokens, req , res) => {
         if(Object.entries(req.body).length){
             console.dir(req.body , { depth: null, colors: true })
         }
+        console.log(`\n${''.padStart(80,'-')} \n `)
         
 }))
 
@@ -82,27 +98,25 @@ const contacts = [
 ]
 
 
-app.get('/api/contacts', (request , response) => {
+app.get('/api/contacts', (request , response, next) => {
   Contact.find({}).then(contacts => {
     response.json(contacts)
-  })
+  }).catch(error => next(error))
 })
 
-app.post('/api/contacts', (request , response) => {
+app.post('/api/contacts', (request , response, next) => {
     try{
       const {name , number} = request.body;
+
+      
 
       if (!name || !number) {
         return response.status(400).json({ error: '❌ Name and number are required' });
       }
       const contact = new Contact({ name, number });
       const savedContact = contact.save().then(nContact => {
-        response.status(201).json(nContact);
-      }).catch(e => {
-        response.status(404).json({error : e})
-      })
-
-
+       return response.status(201).json(nContact);
+      }).catch(error => next(error))
 
     }catch(e){
       response.status(500).json({
@@ -112,21 +126,19 @@ app.post('/api/contacts', (request , response) => {
     
 })
 
-app.put('/api/contacts/:id' , (request , response) => {
+app.put('/api/contacts/:id' , (request , response , next) => {
   const {id , ...updatedContact} = request.body;
   
   
   Contact.findByIdAndUpdate(id,updatedContact, { new: true, runValidators: true })
     .then(contact => {
       response.status(201).json(contact);
-    }).catch(e => {
-      response.status(404).json({error : e})
-    })
+    }).catch(error => next(error))
     
   
 })
 
-app.get('/api/contacts/:id', (request , response) => {
+app.get('/api/contacts/:id', (request , response, next) => {
     const id = request.params.id
     Contact.findById(id)
       .then(contact => {
@@ -138,15 +150,13 @@ app.get('/api/contacts/:id', (request , response) => {
       })
 })
 
-app.delete('/api/contacts/:id', (request , response) => {
+app.delete('/api/contacts/:id', (request , response , next) => {
     const id = request.params.id
     Contact.findByIdAndDelete(id)
       .then(deletedContact => {
         response.status(200).json(deletedContact)
       })
-      .catch(e => {
-        response.status(404).json({error : e})
-      })
+      .catch(error => next(error))
 })
 
 app.get('/info', (request , response) => {
@@ -160,7 +170,11 @@ app.get('/info', (request , response) => {
 })
 })
 
+// handler of requests with unknown endpoint
+app.use(unknownEndpoint)
 
+// this has to be the last loaded middleware, also all the routes should be registered before this!
+app.use(errorHandler)
 
 app.listen(PORT , () => {
     console.log(`server is running on port http://localhost:${PORT}/`) 
