@@ -1,10 +1,10 @@
 const express = require('express') // for server management
-const morgan = require('morgan'); // logger
+const morgan = require('morgan') // logger
 
-const func = require('./functions') // mine
+// const func = require('./functions') // mine
 const chalk = require('chalk') // colors on logger
 const cors = require('cors') // cross origin management
-require('dotenv').config();
+require('dotenv').config()
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -16,13 +16,27 @@ const unknownEndpoint = (request, response) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+  console.log(error.errors)
 
-  if (error.name === 'CastError') {
+  switch (error.name) {
+
+  case 'MongooseError':
+    return response.status(400).json({ error : error.message })
+
+  case 'MongoServerError':
+    return response.status(400).json({ error : error.message })
+
+  case 'CastError':
     return response.status(400).send({ error: 'malformatted id' })
-  } 
 
-  next(error)
+  case 'ValidationError':
+    return response.status(400).json({ error : error.errors })
+
+  default:
+    next(error)
+    break
+  }
+
 }
 
 
@@ -43,9 +57,9 @@ const corsOptions = {
   }
 }
 
-app.use(express.static('dist'));
+app.use(express.static('dist'))
 
-app.use(express.json());
+app.use(express.json())
 
 app.use(cors())
 
@@ -130,7 +144,7 @@ app.put('/api/contacts/:id' , (request , response , next) => {
   const {id , ...updatedContact} = request.body;
   
   
-  Contact.findByIdAndUpdate(id,updatedContact, { new: true, runValidators: true })
+  Contact.findByIdAndUpdate(id,updatedContact, { new: true, runValidators: true , context: 'query' })
     .then(contact => {
       response.status(201).json(contact);
     }).catch(error => next(error))

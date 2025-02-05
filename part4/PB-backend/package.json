@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../pb-frontend && npm run build && @powershell Copy-Item dist -Recurse ../pb-backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m  && git push",
-    "deploy" : "node deploy.js"
+    "deploy": "node deploy.js",
+    "lint": "eslint ."
   },
   "author": "Victor",
   "license": "MIT",
@@ -22,6 +23,10 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@stylistic/eslint-plugin-js": "^3.0.1",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0",
     "netlify-cli": "^18.0.2",
     "nodemon": "^3.1.9"
   }

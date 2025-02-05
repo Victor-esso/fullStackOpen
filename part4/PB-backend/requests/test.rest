@@ -1,12 +1,12 @@
-DELETE http://localhost:3063/api/contacts/1
+DELETE http://localhost:3063/api/contacts/67a365237d84c5d6d79daf6d
 
 ###
 POST http://localhost:3063/api/contacts/
 Content-Type: application/json
 
 {
-    "name"  : "Mathew Louie",
-    "number" : "09083931094"
+    "name"  : "h4565u6htgh",
+    "number" : "1434567876"
 }
 
 ###

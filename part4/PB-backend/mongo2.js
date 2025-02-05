@@ -14,8 +14,7 @@ if(!password){
 console.log('... Connecting to the database');
 const url = `mongodb+srv://victoresso:${password}@testdatabase.eu3bz.mongodb.net/phonebookApp?retryWrites=true&w=majority&appName=testDatabase`;
 mongoose.set('strictQuery',false);
-mongoose.connect(url)
-    .then(() => {
+mongoose.connect(url).then(() => {
         console.log('✔️  Connected') 
         
         // create scheme
