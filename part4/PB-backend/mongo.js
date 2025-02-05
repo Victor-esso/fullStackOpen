@@ -1,22 +1,22 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+require('dotenv').config()
+const mongoose = require('mongoose')
 
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', false)
 // mongoose.set('debug', true);
 
 mongoose.connect(process.env['database.loginString'], {
   // useNewUrlParser: true,
   // useUnifiedTopology: true,
   serverSelectionTimeoutMS: 30000, // Optional, increases timeout
-});
+})
 
 const noteSchema = new mongoose.Schema({
   content: String,
   important: Boolean,
   check : Boolean,
-});
+})
 
-const Note = mongoose.model('note', noteSchema);
+const Note = mongoose.model('note', noteSchema)
 
 // const note = new Note({
 //   content: 'Donal Trump is the president of America!',
@@ -34,9 +34,9 @@ const Note = mongoose.model('note', noteSchema);
 //   });
 
 
-Note.find({important : false}).then(result => {
+Note.find({ important : false }).then(result => {
   result.forEach(note => {
     console.log(note)
   })
-  mongoose.connection.close();
+  mongoose.connection.close()
 })
