@@ -83,6 +83,16 @@ function App() {
     });
     return isValid;
   }
+
+  const handleServerValidationErrors = (errors) => {
+    if(typeof errors === 'object'){
+      Object.values(errors).forEach(error => {
+        if(error.message && error.path){
+          addNotification('error',error.message , error.path , 5000)
+        }
+      })
+    }
+  }
   
   const addNewContact = (event) => {
     event.preventDefault();
@@ -90,16 +100,26 @@ function App() {
 
     if (!validateFields(newContact)) return;
 
-    const newContactRaw = {...newContact , id: String(contacts.length + 1)}
+    const newContactRaw = {...newContact}
 
+    const duplicateContact =  contacts.find(contact =>  contact.name.trim().toLowerCase() === newContact.name.trim().toLowerCase())
+    if(duplicateContact){
+      
+        submitEditContact(false,{
+          ...duplicateContact , number : newContact.number
+        });
+        // Reset the input fields and close the form/modal
+        toggleAddContact();
+      return;
+    }
   
     // Check for duplicate contacts (by name or number)
-    const duplicatesName = contacts.some(contact => 
-      contact.name.trim().toLowerCase() === newContact.name.trim().toLowerCase()
-    );
-    const duplicatesNumber = contacts.some(contact => 
-      contact.number.trim() === newContact.number.trim()
-    );
+    const duplicatesName = contacts.some(contact => {
+      return contact.name.trim().toLowerCase() === newContact.name.trim().toLowerCase()
+    });
+    const duplicatesNumber = contacts.some(contact => {
+      return contact.number.toString().trim() === newContact.number.trim()
+    });
   
     if (duplicatesName || duplicatesNumber) {
       duplicatesName && createError('name','Duplicate name found');
@@ -122,19 +142,33 @@ function App() {
       // Reset the input fields and close the form/modal
       resetNewContact();
       toggleAddContact();
+    }).catch(error => {
+      let errors = error.response.data?.error; 
+      handleServerValidationErrors(errors);
     })
     return ;
 
   
   }
 
-  const submitEditContact = (event) => {
-      event.preventDefault();
+  const submitEditContact = (event = false , editContactDirect = false) => {
+
+      let innerContact = false;
+      if(event){
+        event.preventDefault();
+      }
+
+      if(editContactDirect){
+        innerContact = editContactDirect
+        setEditContact(innerContact);
+      }else{
+        innerContact = editContact
+      }
 
       clearErrors();
 
       // Check for empty fields
-      if (editContact.name.trim() === '' || editContact.number.trim() === '') {
+      if (!editContactDirect && (editContact.name.trim() === '' || editContact.number === '')) {
         editContact.name.trim() === '' && createError('name','Name field cannot be empty')  
         editContact.name.trim() === '' && addNotification('error',`Name field cannot be empty`)
 
@@ -143,7 +177,7 @@ function App() {
         return false;
       }
 
-      contactServices.update(editContact.id , editContact).then(r => {
+      contactServices.update(innerContact.id , innerContact).then(r => {
 
         setContacts(initContacts => {
           return initContacts.map(contact => contact.id === r.id ? r : contact)
@@ -152,6 +186,9 @@ function App() {
         addNotification('success',`${r.name} contact has be updated successfully`,'Success')
   
         closeEditContact();
+      }).catch(error => {
+          let errors = error.response.data?.error; 
+          handleServerValidationErrors(errors);
       })
 
   }
@@ -227,7 +264,7 @@ function App() {
 
 
   return (
-    <section className="w-dvw h-full min-h-dvh  vertical no-select">
+    <section className="w-full h-full min-h-dvh  vertical no-select">
       <Header toggleAddContact={toggleAddContact} setSearch={setSearch} search={search} clearPhonebook={()=>setClearPhonebook(true)} contacts={contacts} filteredContacts={filteredContacts} />
 
       {contacts.length ? 
