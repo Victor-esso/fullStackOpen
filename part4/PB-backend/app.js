@@ -3,11 +3,6 @@ const cors = require('cors') // cross origin management
 
 const app = express()
 
-app.use(express.static('dist'))
-app.use(express.json())
-
-
-
 // set Allowed Origins
 // const allowedOrigins = [
 //   'http://localhost:5173', // make sure the origin has no trailing slash
@@ -25,5 +20,10 @@ app.use(express.json())
 //   }
 // }
 app.use(cors())
+
+app.use(express.static('dist'))
+app.use(express.json())
+
+
 
 module.exports = app

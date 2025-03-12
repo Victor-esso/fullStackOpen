@@ -1,5 +1,4 @@
 const { execSync } = require('child_process')
-
 const commitMsg = process.argv[2] || 'Auto commit'// Get message from CLI args
 const fullDeploy = Boolean(process.argv[3]) || false
 
