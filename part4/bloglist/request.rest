@@ -1,0 +1,13 @@
+POST http://localhost:4000/api/blogs/
+Content-Type: application/json
+
+{
+    "title" : "How to Write an Awesome Blog Post in 5 Steps",
+    "author" : "Dan Shewan",
+    "url" : "https://www.wordstream.omb/ug878",
+    "likes" : 0
+}
+
+###
+
+GET http://localhost:4000/api/blogs/
