@@ -8,20 +8,27 @@ Router.get( '/' , async ( req , res , next) => {
 } )
 
 Router.post( '/' , async ( req , res , next) => {
-    try {
-        const blog = new Blog(req.body)
-
-        const newBlog = await blog.save()
-        
-        return res.status(201).json(newBlog)
-
-    } catch(err) {
-        console.log(err)
-        res.status(500).json({
-            error : 'Internal server error'
-        })
-    }
+    const blog = new Blog(req.body)
+    const newBlog = await blog.save()
+    res.status(201).json(newBlog)
 } )
+
+Router.get('/:id' , async ( req , res , next ) => {
+    const blog = await Blog.findById(req.params.id)
+    res.json(blog)
+} )
+
+Router.delete('/:id' , async ( req , res , next ) => {
+    const deletedBlog = await Blog.findByIdAndDelete(req.params.id)
+    res.status(204).end()
+} )
+
+
+
+
+
+
+
 
 Router.use(( req , res ) => {
     res.status(404).send('Invalid Blog Related Request')
