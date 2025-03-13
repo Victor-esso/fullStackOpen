@@ -7,8 +7,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "node --test",
-    "start": "node --watch index.js"
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development node --watch index.js",
+    "test": "cross-env NODE_ENV=test node --test"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,5 +17,8 @@
     "express": "^4.21.2",
     "mongoose": "^8.9.5",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
