@@ -1,9 +1,9 @@
 const logger = require('./logger')
 
 const errorHandler = ( err , req , res , next ) => {
-    // console.log(err.errorResponse)
+    logger.info(err.errorResponse)
     
-    console.log("Error:", err.message);
+    logger.error("Error:", err.message);
     next( err )
 }
 

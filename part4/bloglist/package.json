@@ -19,6 +19,7 @@
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "supertest": "^7.0.0"
   }
 }
