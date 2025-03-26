@@ -8,7 +8,7 @@ const errorHandler = ( err , req , res , next ) => {
             return res.status(400).json({ error : err.message })
         
         case 'MongoServerError':
-            return res.status(400).json({ error : err.message })
+            return res.status(400).json({ error : err })
         
         case 'CastError':
             return res.status(404).send({ error: 'malformatted id' })
@@ -18,7 +18,7 @@ const errorHandler = ( err , req , res , next ) => {
         
         default:
             next(err)
-            break
+        break
     }
 }
 

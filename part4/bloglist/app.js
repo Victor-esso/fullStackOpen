@@ -12,10 +12,10 @@ const middleware = require('./utils/middleware')
 app.use(cors())
 app.use(express.json())
 
-connectDB() // Connect once before using models
 
 app.use(middleware.requestLogger)
 
+connectDB() // Connect once before using models
 
 app.use( '/api/blogs' , blogRouter)
 app.use( '/api/users' , userRouter)

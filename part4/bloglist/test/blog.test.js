@@ -22,12 +22,10 @@ describe('Blog Server Test', () => {
             assert.deepStrictEqual(
                 listHelper.favoriteBlog(data.blogs),
                 {
-                    _id: "5a422b3a1b54a676234d17f9",
                     title: "Canonical string reduction",
                     author: "Edsger W. Dijkstra",
                     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
                     likes: 12,
-                    __v: 0
                 }
             )
         })
