@@ -2,10 +2,11 @@ POST http://localhost:4000/api/blogs/
 Content-Type: application/json
 
 {
-    # "title": "React patterns",
-    # "author": "Michael Chan",
-    "url": "https://reactpatterns.com/",
-    "likes": 7
+    "title": "New Api Test",
+    "author": "Dan Jenkins",
+    "url": "https://danapipatterns.com/",
+    "likes": 16,
+    "userId" : "67e347127ac56d4f5233d671"
 }
 
 ###

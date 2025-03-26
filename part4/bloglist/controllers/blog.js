@@ -1,15 +1,32 @@
 const Router = require('express').Router()
 const { Blog } = require('../model/blog')
+const { User } = require('../model/user')
 const logger = require('../utils/logger')
 
 Router.get( '/' , async ( req , res , next) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user',{
+        username : 1 ,
+        name : 1
+    })
     res.json(blogs)
 } )
 
 Router.post( '/' , async ( req , res , next) => {
-    const blog = new Blog(req.body)
+    const body = req.body
+
+    const user = await User.findById(body.userId)
+
+    const blog = new Blog({
+        title : body.title,
+        author : body.author,
+        url : body.url,
+        likes : body.likes,
+        user : user.id
+    })
+
     const newBlog = await blog.save()
+    user.blogs = user.blogs.concat(newBlog._id)
+    await user.save()
     res.status(201).json(newBlog)
 } )
 
