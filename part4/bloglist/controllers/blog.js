@@ -1,7 +1,17 @@
+require('dotenv').config()
 const Router = require('express').Router()
+const jwt = require('jsonwebtoken')
 const { Blog } = require('../model/blog')
 const { User } = require('../model/user')
 const logger = require('../utils/logger')
+const middleware = require('../utils/middleware')
+const { validateUserToken } = require('../helpers/app')
+
+
+
+Router.use(middleware.bearerTokenExtractor)
+
+
 
 Router.get( '/' , async ( req , res , next) => {
     const blogs = await Blog.find({}).populate('user',{
@@ -13,8 +23,14 @@ Router.get( '/' , async ( req , res , next) => {
 
 Router.post( '/' , async ( req , res , next) => {
     const body = req.body
+    // Verify token
 
-    const user = await User.findById(body.userId)
+    const decodedToken = validateUserToken(req.token)
+    if(!decodedToken.id){
+        return res.status(401).json({ error : 'Token Invalid' })
+    }
+
+    const user = await User.findById(decodedToken.id)
 
     const blog = new Blog({
         title : body.title,
@@ -35,9 +51,24 @@ Router.get('/:id' , async ( req , res , next ) => {
     res.json(blog)
 } )
 
-Router.delete('/:id' , async ( req , res , next ) => {
-    const deletedBlog = await Blog.findByIdAndDelete(req.params.id)
-    res.status(204).end()
+Router.delete('/:id' ,middleware.extractUser, async ( req , res , next ) => {
+    // verify token
+
+    if(!req.user){
+        res.status(401).json({ error : 'Invalid Token'})
+    }
+
+    // get blog details
+    const blogDetails = await Blog.findById(req.params.id).populate('user')
+
+    if( req.user._id.toString() === blogDetails?.user._id.toString() ) {
+        const deletedBlog = await Blog.findByIdAndDelete(req.params.id)
+        res.status(204).end()
+        return;
+    }
+
+    res.status(401).json({ error : "Unauthorized action"})
+
 } )
 
 

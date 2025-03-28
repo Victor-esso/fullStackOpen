@@ -5,8 +5,11 @@ const logger = require('../utils/logger')
 
 Router.post('/' , async (request , response ) => {
     const { username , name , password } = request.body
-    console.log('👁‍🗨👁‍🗨')
-    console.log(request.body)
+
+    if(password && password.length <= 3){
+        return response.status(400).json({ error : "too short , please provide a password with a minimum of 3 characters"})
+    }
+    
 
     const saltRounds = 10 
     const passwordHash = await bcrypt.hash(password , saltRounds);
@@ -32,5 +35,10 @@ Router.get( '/' , async ( req , res , next) => {
     )
     res.json(users)
 } )
+
+Router.get('/:id' , async (req , res ) => {
+  const user = await User.findById(req.params.id).populate('blogs' , { user : 0})
+  res.json(user) 
+})
 
 module.exports = Router
