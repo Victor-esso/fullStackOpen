@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import loginService from '../services/login'
 import blogServices from '../services/blogs'
 
-const Login = ( { setUser , setErrorMessage}) => {
+const Login = ( { setUser , setErrorMessage , setShowLogin , fetchBlogs}) => {
     const [username , setUsername] = useState('')
     const [password , setPassword] = useState('')
 
@@ -16,6 +16,8 @@ const Login = ( { setUser , setErrorMessage}) => {
             blogServices.setToken(user.token)
             setUsername('')
             setPassword('')
+            setShowLogin(false)
+            fetchBlogs()
 
         }catch (e) {
             setErrorMessage('Wrong credentials')

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
-const CreateBlog = ( { setSuccessMessage , setErrorMessage , setBlogs }) => {
+const CreateBlog = ( { setSuccessMessage , setErrorMessage , setBlogs , closePostForm}) => {
 
     const [author , setAuthor] = useState('')
     const [title , setTitle] = useState('')
@@ -18,6 +18,7 @@ const CreateBlog = ( { setSuccessMessage , setErrorMessage , setBlogs }) => {
             setAuthor('')
             setTitle('')
             setUrl('')
+            closePostForm()
             
         }catch (e){
             setErrorMessage('Error creating post')
@@ -31,7 +32,7 @@ const CreateBlog = ( { setSuccessMessage , setErrorMessage , setBlogs }) => {
   return (
     <div>
         <h2>Create New</h2>
-        <form onSubmit={handleSubmit} style={{margin: '20px 0'}}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <label>Title : </label>
                 <input 

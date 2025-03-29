@@ -1,22 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import CreateBlog from './components/CreateBlog'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user , setUser] = useState(null)
   const [errorMessage , setErrorMessage] = useState(null)
   const [successMessage , setSuccessMessage] = useState(null)
+  const [ showLogin , setShowLogin ] = useState(false)
+  const postFormRef =  useRef()
 
 
 
-  useEffect(() => {
+  const fetchBlogs = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
+  }
 
   useEffect(() => {
     const loggedUserJson = window.localStorage.getItem('loggedInUser')
@@ -24,6 +27,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJson)
       setUser(user)
       blogService.setToken(user.token)
+      fetchBlogs()
     }
   }, [])
 
@@ -35,7 +39,7 @@ const App = () => {
     }
   }, [successMessage])
 
-  if(!user){
+  if(showLogin){
     return (
       <>
         {errorMessage && 
@@ -43,7 +47,9 @@ const App = () => {
             {errorMessage}
           </div>
         }
-        <Login setUser={setUser} setErrorMessage={setErrorMessage} />
+        <Login setUser={setUser} setErrorMessage={setErrorMessage} setShowLogin={setShowLogin} fetchBlogs={fetchBlogs} />
+
+        <button onClick={() => setShowLogin(false)}>Cancel</button>
       </>
     )
   }
@@ -52,6 +58,15 @@ const App = () => {
     setUser(null)
     blogService.setToken(null)
     window.localStorage.removeItem('loggedInUser')
+  }
+
+  const showLoginForm = () => {
+    setShowLogin(true)
+    logout()
+  } 
+
+  const closePostForm = () => {
+    postFormRef.current.toggleVisibility()
   }
 
   return (
@@ -67,10 +82,17 @@ const App = () => {
           </div>
       }
       <h2>blogs</h2>
-      <p>{`${user.name} is logged in`} <button onClick={logout}>Logout</button></p>
-      <CreateBlog setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage}  setBlogs={setBlogs} />
+      { user?.name 
+        ? 
+        <p>{`${user?.name} is logged in`} <button onClick={logout}>Logout</button></p>
+        :
+        <button onClick={showLoginForm}>Login</button>
+      }
+      <Togglable toggleLabel="New Post" ref={postFormRef}>
+        <CreateBlog setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage}  setBlogs={setBlogs} closePostForm={closePostForm} />
+      </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
       )}
     </div>
   )
