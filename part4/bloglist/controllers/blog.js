@@ -13,11 +13,18 @@ Router.use(middleware.bearerTokenExtractor)
 
 
 
-Router.get( '/' , async ( req , res , next) => {
-    const blogs = await Blog.find({}).populate('user',{
+Router.get( '/' , middleware.extractUser , async ( req , res , next) => {
+    let blogs = await Blog.find({}).populate('user',{
         username : 1 ,
         name : 1
     })
+
+    if (req?.user) {
+        blogs = blogs.map(blog => {
+            console.log(req?.user)
+            return {...blog.toJSON() , owner : (blog?.user?.id === req.user._id.toString() )} 
+        });
+    }
     res.json(blogs)
 } )
 
@@ -70,6 +77,45 @@ Router.delete('/:id' ,middleware.extractUser, async ( req , res , next ) => {
     res.status(401).json({ error : "Unauthorized action"})
 
 } )
+
+// Like or Unlike a Post
+Router.put("/:id/like",middleware.extractUser, async (req, res) => {
+
+
+        if(!req.token){
+            return res.status(401).json({error : 'Unauthorized Access'})
+        }
+        
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) return res.status(404).json({ error: "Blog not found" });
+
+        // Ensure likes is at least 0 before incrementing
+        blog.likes = (blog.likes || 0) + 1;
+
+        const updatedBlog = await blog.save();
+        res.json({ likes: updatedBlog.likes });
+
+});
+
+Router.put("/:id/unlike",middleware.extractUser, async (req, res) => {
+
+
+        if(!req.token){
+            return res.status(401).json({error : 'Unauthorized Access'})
+        }
+        
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) return res.status(404).json({ error: "Blog not found" });
+
+        // Ensure likes doesn't go below 0
+        blog.likes = Math.max((blog.likes || 0) - 1, 0);
+
+        const updatedBlog = await blog.save();
+        res.json({ likes: updatedBlog.likes });
+
+});
 
 
 

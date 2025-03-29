@@ -47,8 +47,9 @@ const bearerTokenExtractor = ( req , res , next ) => {
 }
 
 const extractUser = async ( req , res , next ) => {
+
     const decodedToken = validateUserToken(req.token)
-    const userDetails = decodedToken.id ? await User.findById(decodedToken.id) : false
+    const userDetails = decodedToken?.id ? await User.findById(decodedToken.id) : false
     req.user = userDetails 
     next()
     
