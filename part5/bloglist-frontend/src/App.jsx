@@ -69,6 +69,13 @@ const App = () => {
     postFormRef.current.toggleVisibility()
   }
 
+  
+  let sortedBlogs = blogs.sort( (a , b) =>{
+    return b.likes - a.likes
+  })
+
+ 
+
   return (
     <div>
       {errorMessage && 
@@ -91,7 +98,7 @@ const App = () => {
       <Togglable toggleLabel="New Post" ref={postFormRef}>
         <CreateBlog setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage}  setBlogs={setBlogs} closePostForm={closePostForm} />
       </Togglable>
-      {blogs.map(blog =>
+      {sortedBlogs.map(blog =>
         <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
       )}
     </div>

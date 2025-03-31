@@ -34,10 +34,14 @@ const Blog = ({ blog , setBlogs}) => {
   }
 
   const deletePost = async () => {
+    if(!window.confirm(`A are yo sure you want to delete '${blog.title}' by ${blog.author} ?`)){
+      return
+    }
     const response = await BlogServices.deletePost(blog.id)
     console.log(response);
     // remove from list
     setBlogs((blogs) => blogs.filter(nBlog => nBlog.id !== blog.id))
+  
   }
 
   return (
