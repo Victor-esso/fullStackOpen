@@ -50,7 +50,7 @@ Router.post( '/' , async ( req , res , next) => {
     const newBlog = await blog.save()
     user.blogs = user.blogs.concat(newBlog._id)
     await user.save()
-    res.status(201).json(newBlog)
+    res.status(201).json({...newBlog.toJSON(), owner : true})
 } )
 
 Router.get('/:id' , async ( req , res , next ) => {
