@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes  from  'prop-types'
-const CreateBlog = ( { setSuccessMessage , setErrorMessage , setBlogs , closePostForm }) => {
+const CreateBlog = ( { setSuccessMessage , setErrorMessage , setBlogs , closePostForm , textFunc }) => {
 
 	const [author , setAuthor] = useState('')
 	const [title , setTitle] = useState('')
 	const [url , setUrl] = useState('')
 	const handleSubmit =  async (e) => {
+		textFunc({ author , title, url }) //for test
 		e.preventDefault()
 		try{
 			const post = await blogService.create({ author , title, url })
@@ -75,6 +76,7 @@ CreateBlog.propTypes = {
 	setSuccessMessage   : PropTypes.func.isRequired,
 	setErrorMessage     : PropTypes.func.isRequired,
 	setBlogs            : PropTypes.func.isRequired,
-	closePostForm       : PropTypes.func.isRequired
+	closePostForm       : PropTypes.func.isRequired,
+	textFunc 			: PropTypes.func
 }
 export default CreateBlog

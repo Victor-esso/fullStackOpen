@@ -2,7 +2,7 @@ import { useState } from 'react'
 import BlogServices from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog , setBlogs }) => {
+const Blog = ({ blog , setBlogs , clickTest }) => {
 	const [ showAll , setShowAll ] = useState(false)
 
 	// console.log(blog)
@@ -23,6 +23,7 @@ const Blog = ({ blog , setBlogs }) => {
 			return newBlogs
 		})
 	}
+
 	const unlikePost = async () => {
 		const response = await BlogServices.unLikePost(blog.id)
 		setBlogs((blogs) => {
@@ -43,9 +44,14 @@ const Blog = ({ blog , setBlogs }) => {
 		setBlogs((blogs) => blogs.filter(nBlog => nBlog.id !== blog.id))
 	}
 
+	const handleShowAll = () => { 
+		setShowAll(!showAll)
+		clickTest()
+	}
+
 	return (
-		<div style={blogStyle}>
-			<div>{blog.title} <button onClick={() => setShowAll(!showAll)}>{showAll ? 'Hide' : 'Show'}</button></div>
+		<div style={blogStyle} className='blog'>
+			<div>{blog.title} <button onClick={() => handleShowAll()}>{showAll ? 'Hide' : 'Show'}</button></div>
 			{showAll &&
 				<>
 					<a href={blog.url}>{blog.url}</a>
@@ -62,7 +68,8 @@ const Blog = ({ blog , setBlogs }) => {
 
 Blog.propTypes = {
 	blog : PropTypes.object.isRequired,
-	setBlogs : PropTypes.func.isRequired
+	setBlogs : PropTypes.func.isRequired,
+	clickTest : PropTypes.func
 }
 
 export default Blog
