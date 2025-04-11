@@ -1,0 +1,17 @@
+{
+  "name": "e2e_test",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Victor esso nmakwe",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.13.17"
+  }
+}

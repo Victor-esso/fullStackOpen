@@ -1,0 +1,162 @@
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-ExtralightItalic.woff2') format('woff2'),
+        url('Switzer-ExtralightItalic.woff') format('woff');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-BlackItalic.woff2') format('woff2'),
+        url('Switzer-BlackItalic.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Black.woff2') format('woff2'),
+        url('Switzer-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Bold.woff2') format('woff2'),
+        url('Switzer-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Extralight.woff2') format('woff2'),
+        url('Switzer-Extralight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-ExtraboldItalic.woff2') format('woff2'),
+        url('Switzer-ExtraboldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Extrabold.woff2') format('woff2'),
+        url('Switzer-Extrabold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-BoldItalic.woff2') format('woff2'),
+        url('Switzer-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Italic.woff2') format('woff2'),
+        url('Switzer-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-SemiboldItalic.woff2') format('woff2'),
+        url('Switzer-SemiboldItalic.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Thin.woff2') format('woff2'),
+        url('Switzer-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Light.woff2') format('woff2'),
+        url('Switzer-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-ThinItalic.woff2') format('woff2'),
+        url('Switzer-ThinItalic.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-MediumItalic.woff2') format('woff2'),
+        url('Switzer-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Regular.woff2') format('woff2'),
+        url('Switzer-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Semibold.woff2') format('woff2'),
+        url('Switzer-Semibold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-LightItalic.woff2') format('woff2'),
+        url('Switzer-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Switzer';
+    src: url('Switzer-Medium.woff2') format('woff2'),
+        url('Switzer-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
