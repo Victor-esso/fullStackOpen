@@ -1,22 +1,18 @@
 import { useDispatch } from "react-redux"
-import { createAnecdote } from "../reducers/anecdoteReducer"
-import { newNotification } from "../reducers/notificationReducer"
+import { newAnecdote } from "../reducers/anecdoteReducer"
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
+
   const handleCreate = (e) => {
       e.preventDefault()
       const anecdote = e.target.anecdote.value.trim()
-      console.log(anecdote)
       if(anecdote === ''){
         return;
       }
-      dispatch(createAnecdote(anecdote))
-      dispatch(newNotification({
-        message : `New Anecdote : ${anecdote}`,
-        type : 'error'
-      }))
+      dispatch(newAnecdote(anecdote))
   }
+  
   return (
     <div>
       <h2>create new</h2>

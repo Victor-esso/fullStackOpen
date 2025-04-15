@@ -12,7 +12,6 @@ const AnecdoteList = () => {
     }
 
  
-
     const sorted = [...anecdotes].sort( ( a , b ) => b.votes - a.votes)
     
 

@@ -25,7 +25,7 @@ const Notification = ( { notification } ) => {
 const Notifications = () => {
   const notifications = useSelector(s => s.notifications)
   return (
-    <div className="notifications-container">
+    <div className="notifications-container" style={{opacity : '.5' , margin :'10px 0'}}>
       {notifications.map( notification => (
         <Notification key={notification.id} notification={{...notification}} />
       ))}

@@ -1,0 +1,54 @@
+{
+  "anecdotes": [
+    {
+      "content": "If it hurts, do it more often",
+      "votes": 0,
+      "id": "1"
+    },
+    {
+      "content": "Adding manpower to a late software project makes it later!",
+      "votes": 16,
+      "id": "2"
+    },
+    {
+      "content": "Premature optimization is the root of all evil.",
+      "votes": 0,
+      "id": "3"
+    },
+    {
+      "content": "Any fool can write code that a computer can understand.",
+      "votes": 12,
+      "id": "4"
+    },
+    {
+      "content": "Good programmers write code that humans can understand.",
+      "votes": 0,
+      "id": "5"
+    },
+    {
+      "id": "fec4",
+      "content": "Man is Good",
+      "votes": 0
+    },
+    {
+      "id": "2564",
+      "content": "Fyfy is a bad Bitch",
+      "votes": 0
+    },
+    {
+      "id": "825a",
+      "content": "vicri us jubb",
+      "votes": 0
+    },
+    {
+      "id": "194a",
+      "content": "solomon is greate",
+      "votes": 0
+    },
+    {
+      "id": "e827",
+      "content": "trying again",
+      "votes": 0
+    }
+  ]
+}
